@@ -1,0 +1,6 @@
+{
+  "git.ignoreLimitWarning": true,
+  "python.analysis.extraPaths": [
+    "C:UsersNEKIWANUKADesktopFGF\biodiversity_platform\fgf_application"
+  ]
+}

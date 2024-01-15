@@ -1,0 +1,3 @@
+Please verify you email address by following the link below:
+
+{{ frontend_url }}/verify-email/{{token}}/{{user_id}}/
