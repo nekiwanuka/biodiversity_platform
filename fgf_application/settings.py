@@ -2,6 +2,7 @@ from pathlib import Path
 
 import os
 from datetime import timedelta
+from unittest.mock import DEFAULT
 import dj_database_url
 import environ
 
@@ -59,6 +60,8 @@ INSTALLED_APPS = [
     "djoser",
     "phone_field",
     'huey.contrib.djhuey',
+    "cultures",
+    "plants",
     # "elasticemailbackend",
     # "djoser.webauthn",
     # local apps
@@ -165,6 +168,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 
+AUTH_USER_MODEL = 'fgfAuth.FgfUser'
 
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT",),
@@ -178,8 +182,8 @@ SIMPLE_JWT = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = 'fgfsytems@gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

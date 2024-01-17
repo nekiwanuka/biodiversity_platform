@@ -1,16 +1,13 @@
-import io
+# serializers.py
+
 import logging
 from rest_framework import serializers
-from phone_field import PhoneField
-from django.conf import settings
 from django.contrib.auth.models import User
 from djoser.serializers import UserCreateSerializer
 from drf_writable_nested import WritableNestedModelSerializer
 from drf_extra_fields.fields import Base64FileField, Base64ImageField
 from rest_framework.authtoken.models import Token
 from django.core.exceptions import ObjectDoesNotExist
-from drf_writable_nested.serializers import WritableNestedModelSerializer
-
 from .models import FgfUser, Contributor, Master, EmailVerificationToken
 
 logger = logging.getLogger(__name__)
@@ -22,19 +19,12 @@ class UserSerializer(UserCreateSerializer):
     password = serializers.CharField(
         style={"input_type": "password"}, min_length=6, max_length=68, write_only=True
     )
-    username = serializers.CharField(allow_blank=True, required=True)
+
 
     def validate_email(self, email):
-        if User.objects.filter(email=email):
+        if FgfUser.objects.filter(email=email).exists():
             raise serializers.ValidationError(f"The email '{email}' is already taken")
         return email
-
-    def validate_username(self, username):
-        if User.objects.filter(username=username):
-            raise serializers.ValidationError(
-                f"The username '{username}' is already taken"
-            )
-        return username
 
     class Meta(UserCreateSerializer.Meta):
         model = FgfUser
@@ -43,13 +33,14 @@ class UserSerializer(UserCreateSerializer):
             "first_name",
             "last_name",
             "email",
-            "username",
             "password",
         )
+        
 
 class ContributorSerializer(WritableNestedModelSerializer):
     is_email_verified = serializers.ReadOnlyField(source="user.is_email_verified")
     user = UserSerializer()
+
     class Meta:
         model = Contributor
         fields = (
@@ -60,6 +51,16 @@ class ContributorSerializer(WritableNestedModelSerializer):
             "phone_number",
             "is_email_verified",
         )
+        read_only_fields = ("id", "is_email_verified")
+
+    def create(self, validated_data):
+        user_data = validated_data.pop("user")
+        user_instance = FgfUser.objects.create(**user_data)
+        # Set the password using set_password
+        user_instance.set_password(user_data["password"])
+        user_instance.save()
+        contributor_instance = Contributor.objects.create(user=user_instance, **validated_data)
+        return contributor_instance
 
 class MasterSerializer(WritableNestedModelSerializer):
     is_email_verified = serializers.ReadOnlyField(source="user.is_email_verified")
@@ -75,40 +76,16 @@ class MasterSerializer(WritableNestedModelSerializer):
             "profession",
             "is_email_verified",
         )
+        read_only_fields = ("id", "is_email_verified")
 
-class EmailVerificationTokenSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = EmailVerificationToken
-        fields = "__all__"
+    def create(self, validated_data):
+        user_data = validated_data.pop("user")
+        user_instance = FgfUser.objects.create(**user_data)
+        # Set the password using set_password
+        user_instance.set_password(user_data["password"])
+        user_instance.save()
+        master_instance = Master.objects.create(user=user_instance, **validated_data)
+        return master_instance
 
-class TokenSerializer(serializers.ModelSerializer):
-    role = serializers.SerializerMethodField()
-    id = serializers.SerializerMethodField()
 
-    class Meta:
-        model = Token
-        fields = ("id", "role", "key")
 
-    def get_role(self, obj):
-        return self._role_and_id(obj)["role"]
-
-    def get_id(self, obj):
-        return self._role_and_id(obj)["id"]
-
-    def _role_and_id(self, obj):
-        try:
-            if obj.user.contributor:
-                return {"role": "CONTRIBUTOR", "id": obj.user.contributor.id}
-        except ObjectDoesNotExist:
-            pass
-
-        try:
-            if obj.user.master:
-                return {"role": "MASTER", "id": obj.user.master.id}
-        except ObjectDoesNotExist:
-            pass
-
-        if obj.user.is_staff:
-            return {"role": "ADMIN", "id": obj.id}
-        else:
-            return {"role": "ANONYMOUS", "id": None}

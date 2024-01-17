@@ -9,7 +9,7 @@ from drf_yasg.generators import OpenAPISchemaGenerator
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework.authtoken import views
-from fgfAuth.views import EmailVerificationView
+# from fgfAuth.views import EmailVerificationView
 
 
 class BothHttpAndHttpsSchemaGenerator(OpenAPISchemaGenerator):
@@ -36,33 +36,38 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path(
-        "api/auth/password/reset/",
-        PasswordResetView.as_view(),
-        name="rest_password_reset",
-    ),
-    path(
-        "api/auth/password/reset/confirm/<str:uidb64>/<str:token>/",
-        PasswordResetConfirmView.as_view(),
-        name="password_reset_confirm",
-    ),
-    path("api/auth/", include("dj_rest_auth.urls")),
-    path(
-        "api/auth/verify-email/<str:token>/<str:user_id>",
-        EmailVerificationView.as_view(),
-    ),
+    # path(
+    # #     "api/auth/password/reset/",
+    # #     PasswordResetView.as_view(),
+    # #     name="rest_password_reset",
+    # # ),
+    # # path(
+    # #     "api/auth/password/reset/confirm/<str:uidb64>/<str:token>/",
+    # #     PasswordResetConfirmView.as_view(),
+    # #     name="password_reset_confirm",
+    # # ),
+    # # path("api/auth/", include("dj_rest_auth.urls")),
+    # # # path(
+    # # #     "api/auth/verify-email/<str:token>/<str:user_id>",
+    # # #     EmailVerificationView.as_view(),
+    #  ),
 
-    path("users/", include("fgfAuth.urls")),
+    path("users/", include(("fgfAuth.urls", "fgfAuth"), namespace="fgfAuth")),  # Include with a namespace and app_name
+  # Include with a namespace
+    path("", include(("cultures.urls", "cultures"))),
+    path("", include(("plants.urls", "plants"))),
+
+
 
     path(
-        "swagger<format>/", schema_view.without_ui(cache_timeout=0), name="schema-json"
+        "swagger<format>/",
+        schema_view.without_ui(cache_timeout=0),
+        name="schema-json",
     ),
     path("", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
 
-]
-
-urlpatterns += [
+    # Media path
     re_path(
         r"^media/(?P<path>.*)$",
         serve,
