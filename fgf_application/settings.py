@@ -47,8 +47,8 @@ INSTALLED_APPS = [
     'huey.contrib.djhuey',
     "cultures",
     "plants",
-    'accounts',
     'animals',
+    #'accounts',
 ]
 
 MIDDLEWARE = [
@@ -69,7 +69,7 @@ ROOT_URLCONF = 'fgf_application.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'accounts', 'templates')],
+       # 'DIRS': [os.path.join(BASE_DIR, 'accounts', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,7 +122,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-AUTH_USER_MODEL = "accounts.User"
+#AUTH_USER_MODEL = "accounts.User"
 
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT",),
