@@ -49,7 +49,7 @@ class CulturalKingdom(models.Model):
         # Add other choices as needed
     ]
 
-    cultural_kingdom = models.BigAutoField(primary_key=True)
+    cultural_kingdom_id = models.BigAutoField(primary_key=True)
     kingdom_name = models.CharField(max_length=250)
     title_of_leader = models.CharField(max_length=250, blank=True, null=True, choices=LEADER_CHOICES)
     number_of_clans = models.IntegerField(default=1, null=True)

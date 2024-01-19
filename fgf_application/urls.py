@@ -1,4 +1,3 @@
-
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include, re_path
@@ -9,7 +8,12 @@ from drf_yasg.generators import OpenAPISchemaGenerator
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework.authtoken import views
-# from fgfAuth.views import EmailVerificationView
+from django.conf.urls.static import static
+
+
+admin.site.site_header = "FGF SYSTEMS"
+admin.site.site_title = "Welcome to FGF systems "
+admin.site.index_title = "Admin Dashboard"
 
 
 class BothHttpAndHttpsSchemaGenerator(OpenAPISchemaGenerator):
@@ -17,7 +21,6 @@ class BothHttpAndHttpsSchemaGenerator(OpenAPISchemaGenerator):
         schema = super().get_schema(request, public)
         schema.schemes = ["http", "https"]
         return schema
-
 
 # The documentation
 schema_view = get_schema_view(
@@ -36,29 +39,11 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path(
-    # #     "api/auth/password/reset/",
-    # #     PasswordResetView.as_view(),
-    # #     name="rest_password_reset",
-    # # ),
-    # # path(
-    # #     "api/auth/password/reset/confirm/<str:uidb64>/<str:token>/",
-    # #     PasswordResetConfirmView.as_view(),
-    # #     name="password_reset_confirm",
-    # # ),
-    # # path("api/auth/", include("dj_rest_auth.urls")),
-    # # # path(
-    # # #     "api/auth/verify-email/<str:token>/<str:user_id>",
-    # # #     EmailVerificationView.as_view(),
-    #  ),
-
-    path("users/", include(("fgfAuth.urls", "fgfAuth"), namespace="fgfAuth")),  # Include with a namespace and app_name
-  # Include with a namespace
+    
     path("", include(("cultures.urls", "cultures"))),
     path("", include(("plants.urls", "plants"))),
-
-
-
+    path("", include(("animals.urls", "animals"))),
+    path("", include(("accounts.urls", "accounts"))),
     path(
         "swagger<format>/",
         schema_view.without_ui(cache_timeout=0),
@@ -66,7 +51,6 @@ urlpatterns = [
     ),
     path("", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
-
     # Media path
     re_path(
         r"^media/(?P<path>.*)$",

@@ -16,7 +16,7 @@ LIFE_FORM_CHOICES = [
 ]
 
 class Plant(models.Model):
-    plant_id = models.AutoField(primary_key=True)
+    plant_id = models.BigAutoField(primary_key=True)
     scientific_name = models.CharField(max_length=100, unique=True, blank=True, null=True)
     synonyms = models.TextField(max_length=255, blank=True, null=True)
     english_name = models.CharField(max_length=100, unique=True, blank=True, null=True)
@@ -42,14 +42,14 @@ class Plant(models.Model):
         return f"Plant: {self.english_name}"
 
 class Language(models.Model):
-    langauge_id = models.AutoField(primary_key=True)
+    langauge_id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100, unique=True, blank=True, null=True)
 
     def __str__(self):
         return self.name
 
 class PlantName(models.Model):
-    plant_name_id = models.AutoField(primary_key=True)
+    plant_name_id = models.BigAutoField(primary_key=True)
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, unique=True, blank=True, null=True)
@@ -58,7 +58,7 @@ class PlantName(models.Model):
         return f"Plant Name: {self.name} - Language: {self.language}"
 
 class MedicinalPlant(models.Model):
-    medicinal_plant_id = models.AutoField(primary_key=True)
+    medicinal_plant_id = models.BigAutoField(primary_key=True)
     plant = models.OneToOneField(Plant, on_delete=models.CASCADE)
     health_issues = models.TextField()
     part_used = models.CharField(max_length=100, blank=True, null=True)
@@ -73,7 +73,7 @@ class MedicinalPlant(models.Model):
         return f"Medicinal Info for Plant: {self.plant.english_name}"
 
 class MedicinalPlantName(models.Model):
-    medicinal_plant_name_id = models.AutoField(primary_key=True)
+    medicinal_plant_name_id = models.BigAutoField(primary_key=True)
     medicinal_plant = models.ForeignKey(MedicinalPlant, on_delete=models.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, unique=True, blank=True, null=True)
@@ -82,7 +82,7 @@ class MedicinalPlantName(models.Model):
         return f"Medicinal Plant Name: {self.name} - Language: {self.language}"
 
 class ScientificClarification(models.Model):
-    scientific_clarification_id = models.AutoField(primary_key=True)
+    scientific_clarification_id = models.BigAutoField(primary_key=True)
     plant = models.OneToOneField('Plant', on_delete=models.CASCADE)
     kingdom = models.CharField(max_length=100, blank=True, null=True)
     order = models.CharField(max_length=100, blank=True, null=True)
@@ -94,7 +94,7 @@ class ScientificClarification(models.Model):
         return f"Scientific Clarification for: {self.plant.english_name}"
 
 class PlantImageGallery(models.Model):
-    plant_image_gallery_id = models.AutoField(primary_key=True)
+    plant_image_gallery_id = models.BigAutoField(primary_key=True)
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="plant_gallery/", blank=True, null=True)
     caption = models.CharField(max_length=255, blank=True, null=True)
@@ -103,7 +103,7 @@ class PlantImageGallery(models.Model):
         return f"Image for {self.plant.english_name} - {self.caption}"
 
 class MedicinalPlantImageGallery(models.Model):
-    medicinal_plant_image_gallery_id = models.AutoField(primary_key=True)
+    medicinal_plant_image_gallery_id = models.BigAutoField(primary_key=True)
     medicinal_plant = models.ForeignKey(MedicinalPlant, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="medicinal_plant_gallery/", blank=True, null=True)
     caption = models.CharField(max_length=255, blank=True, null=True)
