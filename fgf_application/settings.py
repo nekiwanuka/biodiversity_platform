@@ -131,6 +131,9 @@ REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'my-app-auth'
 
 
+# Database Settings
+#DATABASES = {"default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
