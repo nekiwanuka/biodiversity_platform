@@ -10,6 +10,6 @@ router.register(r'animals', AnimalViewSet, basename='animal')
 router.register(r'animal-local-names', AnimalLocalNameViewSet, basename='animallocalname')
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
     # Add more URLs as needed
 ]
