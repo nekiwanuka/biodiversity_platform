@@ -1,10 +1,8 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import dj_database_url
 from decouple import config, Csv
 from datetime import timedelta
-from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
@@ -15,6 +13,7 @@ SECRET_KEY = config('SECRET_KEY')
 # Add other environment variables as needed
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
