@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth',
     'dj_rest_auth.registration',
+    'dj_rest_auth.authentication',
     'allauth.socialaccount.providers.google',
     "rest_framework.authtoken",
     "channels",
