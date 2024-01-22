@@ -4,12 +4,14 @@ from dotenv import load_dotenv
 import dj_database_url
 from decouple import config, Csv
 from datetime import timedelta
+from dotenv import load_dotenv
+
 # Load environment variables from .env file
 load_dotenv()
 
 # Initialize environment variables
 DEBUG = os.environ.get('DEBUG', False)
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY')
 # Add other environment variables as needed
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -128,7 +130,7 @@ REST_FRAMEWORK = {
 }
 
 REST_USE_JWT = True
-JWT_AUTH_COOKIE = 'my-app-auth'
+#JWT_AUTH_COOKIE = 'my-app-auth'
 
 
 # Database Settings
