@@ -1,21 +1,29 @@
 # settings.py
 
+
 import os
 from pathlib import Path
 from datetime import timedelta
 import environ
 import dj_database_url
 from decouple import config, Csv
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
+
+
+# Initialize environment variables
+env = environ.Env(DEBUG=(bool, False))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+environ.Env.read_env()
 
-SECRET_KEY = env("SECRET_KEY")
+DJANGO_SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 DEBUG = env('DEBUG')
 
