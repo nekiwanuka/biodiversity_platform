@@ -9,7 +9,7 @@ load_dotenv()
 
 # Initialize environment variables
 DEBUG = os.environ.get('DEBUG', False)
-DJANGO_SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 # Add other environment variables as needed
 
 BASE_DIR = Path(__file__).resolve().parent.parent
