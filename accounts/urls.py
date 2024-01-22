@@ -22,7 +22,7 @@ urlpatterns = [
     path('api/v1/logout/', FgfUserLogoutView.as_view(), name='custom-user-logout'),
     path('api/v1/login/', FgfUserLoginView.as_view(), name='user-login'),
     path('api/v1/listcontributors/', ContributorListView.as_view(), name='contributor-list'),
-    path('api/v1/masterusers/', MasterUserListView.as_view(), name='masteruser-list'),
+    path('api/v1/listmasterusers/', MasterUserListView.as_view(), name='masteruser-list'),
 
     ]
 
