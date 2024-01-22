@@ -14,7 +14,7 @@ DEBUG = os.environ.get('DEBUG', False)
 SECRET_KEY = os.environ.get('SECRET_KEY', '3$u^962jf6b$0m8v-(y0u&jvg!89t+s@74q72177!3u)_9y2o3')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
 
 # Configure the database
 DATABASES = {"default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))}
@@ -33,12 +33,12 @@ INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
+    "django.contrib.staticfiles",
     "django.contrib.sessions",
     "django.contrib.messages",
 
     # Third-party Apps
     "cloudinary_storage",
-    "cloudinary",
     "django_filters",
     "corsheaders",
     "rest_framework",
@@ -137,6 +137,12 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = "accounts.FgfUser"
 
