@@ -40,7 +40,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("admin/", admin.site.urls),
     
-    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    #path('dj-rest-auth/', include('dj_rest_auth.urls')),
     #path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     path('allauth/', include('allauth.urls')),
     path('allauth/account/', include('allauth.account.urls')),

@@ -83,7 +83,6 @@ class MedicinalPlantName(models.Model):
 
 class ScientificClarification(models.Model):
     scientific_clarification_id = models.BigAutoField(primary_key=True)
-    plant = models.OneToOneField('Plant', on_delete=models.CASCADE)
     kingdom = models.CharField(max_length=100, blank=True, null=True)
     order = models.CharField(max_length=100, blank=True, null=True)
     family = models.CharField(max_length=100, blank=True, null=True)

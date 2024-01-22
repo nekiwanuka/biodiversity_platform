@@ -4,7 +4,9 @@ import os
 from pathlib import Path
 from datetime import timedelta
 import environ
+import dj_database_url
 from decouple import config, Csv
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -80,7 +82,7 @@ AUTHENTICATION_BACKENDS = (
 
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
-    'REGISTER_SERIALIZER': 'users.serializers.CustomUserSerializer',
+    'REGISTER_SERIALIZER': 'users.serializers.FgfUserSerializer',
     'USER_DETAILS_SERIALIZER': 'dj_rest_auth.serializers.UserDetailsSerializer'
 }
 
@@ -132,14 +134,14 @@ JWT_AUTH_COOKIE = 'my-app-auth'
 
 
 # Database Settings
-#DATABASES = {"default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))}
+DATABASES = {"default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))}
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -155,7 +157,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = "accounts.CustomUser"
+AUTH_USER_MODEL = "accounts.FgfUser"
 
 
 
@@ -185,5 +187,6 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 
 LOGIN_URL = 'http://127.0.0.1:8000/api/v1/login/'

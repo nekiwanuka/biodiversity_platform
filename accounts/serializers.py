@@ -1,56 +1,48 @@
 from dj_rest_auth.registration.serializers import RegisterSerializer
-from dj_rest_auth.serializers import UserDetailsSerializer, UserDetailsSerializer, LoginSerializer
+from dj_rest_auth.serializers import LoginSerializer, UserDetailsSerializer
 from rest_framework import serializers
-from .models import CustomUser, Superuser, Masteruser, Contributor
-from django.db import transaction
+from .models import FgfUser
 
 
 GENDER_CHOICES = [('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')]
 
-class CustomUserSerializer(RegisterSerializer):
-    phone_number = serializers.CharField(max_length=30)
+
+class CustomFgfUserRegistrationSerializer(RegisterSerializer):
+    first_name = serializers.CharField(max_length=30, allow_blank=True, allow_null=True, required=True)
+    last_name = serializers.CharField(max_length=30, allow_blank=True, allow_null=True, required=True)
     gender = serializers.ChoiceField(choices=GENDER_CHOICES, allow_blank=True, allow_null=True)
+    phone_number = serializers.CharField(max_length=30)
     profession = serializers.CharField(max_length=30)
 
+
     class Meta:
-        model = CustomUser
-        fields = ('pk', 'email', 'phone_number', 'gender', 'profession', 'date_joined')
-        read_only_fields = ('pk', 'email', 'date_joined')
+        model = FgfUser
+        fields = ('email', 'password', 'first_name', 'last_name', 'phone_number', 'gender', 'profession')
 
-    @transaction.atomic
-    def save(self, request):
-        user = super().save(request)
-        user.phone_number = self.data.get('phone_number')
-        user.gender = self.data.get('gender')
-        user.profession = self.data.get('profession')
+    def custom_signup(self, request, user):
+        # Add logic to determine and set the role based on the registration view
+        # You can access the view using self.context['view']
+        user.is_verified = True
+        from .views import ContributorRegistrationView, MasteruserRegistrationView, SuperuserRegistrationView  # Import the registration views
+
+        view = self.context['view']
+
+        if isinstance(view, ContributorRegistrationView):
+            user.is_contributor = True
+        elif isinstance(view, MasteruserRegistrationView):
+            user.is_masteruser = True
+        elif isinstance(view, SuperuserRegistrationView):
+            user.is_superuser = True
+
         user.save()
-        return user
 
-class SuperuserSerializer(CustomUserSerializer):
-    class Meta(CustomUserSerializer.Meta):
-        model = Superuser
-
-class MasteruserSerializer(CustomUserSerializer):
-    class Meta(CustomUserSerializer.Meta):
-        model = Masteruser
-
-class ContributorSerializer(CustomUserSerializer):
-    class Meta(CustomUserSerializer.Meta):
-        model = Contributor
+class FgfUserSerializer(UserDetailsSerializer):
+    class Meta:
+        model = FgfUser
+        fields = ('id', 'email', 'first_name', 'last_name', 'phone_number', 'gender', 'profession', 'date_joined', 'is_verified', 'is_contributor',)
 
 
-
-class CustomUserSerializer(UserDetailsSerializer):
-    class Meta(UserDetailsSerializer.Meta):
-        model = CustomUser
-        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'phone_number', 'gender', 'profession', 'date_joined')
-        read_only_fields = ('id', 'email', 'username', 'date_joined', 'last_login')
-
-
-
-
-
-class CustomUserLoginSerializer(LoginSerializer):
+class FgfUserLoginSerializer(LoginSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Remove the 'username' field
@@ -60,8 +52,3 @@ class CustomUserLoginSerializer(LoginSerializer):
         attrs = super().validate(attrs)
         attrs['username'] = attrs['email']  # Set 'username' to 'email'
         return attrs
-
-
-
-
-
