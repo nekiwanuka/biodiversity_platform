@@ -1,9 +1,19 @@
 # views.py
-# views.py
 from rest_framework import viewsets, filters
+from django_filters import rest_framework as filters
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
 from .models import Plant, Language, PlantName, MedicinalPlant, MedicinalPlantName, ScientificClarification, PlantImageGallery, MedicinalPlantImageGallery
-from .serializers import PlantSerializer, LanguageSerializer, PlantNameSerializer, MedicinalPlantSerializer, MedicinalPlantNameSerializer, ScientificClarificationSerializer, PlantImageGallerySerializer, MedicinalPlantImageGallerySerializer
+from .serializers import(PlantSerializer,
+                         LanguageSerializer,
+                         PlantNameSerializer,
+                         MedicinalPlantSerializer,
+                         MedicinalPlantNameSerializer,
+                         ScientificClarificationSerializer,
+                         PlantImageGallerySerializer, MedicinalPlantImageGallerySerializer)
+
+
+
 
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 10  # Adjust the page size as needed
@@ -14,31 +24,37 @@ class LanguageViewSet(viewsets.ModelViewSet):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
     pagination_class = StandardResultsSetPagination
+    filter_backends = [SearchFilter, OrderingFilter]
 
 class PlantNameViewSet(viewsets.ModelViewSet):
     queryset = PlantName.objects.all()
     serializer_class = PlantNameSerializer
     pagination_class = StandardResultsSetPagination
+    filter_backends = [SearchFilter, OrderingFilter]
 
 class MedicinalPlantNameViewSet(viewsets.ModelViewSet):
     queryset = MedicinalPlantName.objects.all()
     serializer_class = MedicinalPlantNameSerializer
     pagination_class = StandardResultsSetPagination
+    filter_backends = [SearchFilter, OrderingFilter]
 
 class ScientificClarificationViewSet(viewsets.ModelViewSet):
     queryset = ScientificClarification.objects.all()
     serializer_class = ScientificClarificationSerializer
     pagination_class = StandardResultsSetPagination
+    filter_backends = [SearchFilter, OrderingFilter]
 
 class PlantImageGalleryViewSet(viewsets.ModelViewSet):
     queryset = PlantImageGallery.objects.all()
     serializer_class = PlantImageGallerySerializer
     pagination_class = StandardResultsSetPagination
+    filter_backends = [SearchFilter, OrderingFilter]
 
 class MedicinalPlantImageGalleryViewSet(viewsets.ModelViewSet):
     queryset = MedicinalPlantImageGallery.objects.all()
     serializer_class = MedicinalPlantImageGallerySerializer
     pagination_class = StandardResultsSetPagination
+    filter_backends = [SearchFilter, OrderingFilter]
 
 class MedicinalPlantViewSet(viewsets.ModelViewSet):
     queryset = MedicinalPlant.objects.all()
@@ -48,9 +64,6 @@ class MedicinalPlantViewSet(viewsets.ModelViewSet):
     search_fields = ['health_issues', 'part_used', 'preparation_steps', 'dosage', 'contraindications', 'shelf_life', 'notes', 'cultural_value']
     ordering_fields = '__all__'
 
-from rest_framework import viewsets
-from .models import Plant, Language, PlantName, MedicinalPlant, MedicinalPlantName, ScientificClarification, PlantImageGallery, MedicinalPlantImageGallery
-from .serializers import PlantSerializer, LanguageSerializer, PlantNameSerializer, MedicinalPlantSerializer, MedicinalPlantNameSerializer, ScientificClarificationSerializer, PlantImageGallerySerializer, MedicinalPlantImageGallerySerializer
 
 class LanguageViewSet(viewsets.ModelViewSet):
     queryset = Language.objects.all()

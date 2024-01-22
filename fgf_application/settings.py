@@ -26,6 +26,7 @@ SITE_ID = 1
 CORS_ALLOWED_ORIGINS = [
     "https://fgfoundation.onrender.com",
     "http://localhost:5173",
+    "https://fgfplatformbackend.onrender.com",
 ]
 
 INSTALLED_APPS = [
@@ -73,7 +74,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
-
+JWT_AUTH_COOKIE = 'my-app-auth'
 ROOT_URLCONF = 'fgf_application.urls'
 
 AUTHENTICATION_BACKENDS = (
@@ -108,6 +109,7 @@ WSGI_APPLICATION = 'fgf_application.wsgi.application'
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'dj_rest_auth.authentication.AllAuthJWTAuthentication',
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
@@ -175,4 +177,4 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 
-LOGIN_URL = 'http://127.0.0.1:8000/api/v1/login/'
+LOGIN_URL = 'https://fgfplatformbackend.onrender.com/api/v1/register/contributor/'

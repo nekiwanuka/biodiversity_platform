@@ -2,7 +2,6 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.static import serve
-from dj_rest_auth.views import PasswordResetView, PasswordResetConfirmView
 from drf_yasg import openapi
 from drf_yasg.generators import OpenAPISchemaGenerator
 from drf_yasg.views import get_schema_view
@@ -39,8 +38,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    
-    #path('dj-rest-auth/', include('dj_rest_auth.urls')),
+
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
     #path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     path('allauth/', include('allauth.urls')),
     path('allauth/account/', include('allauth.account.urls')),
