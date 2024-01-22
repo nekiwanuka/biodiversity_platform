@@ -60,7 +60,7 @@ class MedicinalPlantViewSet(viewsets.ModelViewSet):
     queryset = MedicinalPlant.objects.all()
     serializer_class = MedicinalPlantSerializer
     pagination_class = StandardResultsSetPagination
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['health_issues', 'part_used', 'preparation_steps', 'dosage', 'contraindications', 'shelf_life', 'notes', 'cultural_value']
     ordering_fields = '__all__'
 
@@ -97,6 +97,6 @@ class MedicinalPlantViewSet(viewsets.ModelViewSet):
     queryset = MedicinalPlant.objects.all()
     serializer_class = MedicinalPlantSerializer
     pagination_class = StandardResultsSetPagination
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['health_issues', 'part_used', 'preparation_steps', 'dosage', 'contraindications', 'shelf_life', 'notes', 'cultural_value']
     ordering_fields = '__all__'

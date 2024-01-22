@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth',
     'dj_rest_auth.registration',
-    'dj_rest_auth.authentication',
     'allauth.socialaccount.providers.google',
     "rest_framework.authtoken",
     "channels",
@@ -110,7 +109,6 @@ WSGI_APPLICATION = 'fgf_application.wsgi.application'
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-        'dj_rest_auth.authentication.AllAuthJWTAuthentication',
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
