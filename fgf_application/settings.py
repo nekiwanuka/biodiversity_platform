@@ -1,8 +1,11 @@
 import os
 from pathlib import Path
+import dj_database_url
 from dotenv import load_dotenv
 from decouple import config, Csv
 from datetime import timedelta
+import dj_database_url
+
 
 # Load environment variables from .env file
 load_dotenv()
