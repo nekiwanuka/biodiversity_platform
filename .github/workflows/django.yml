@@ -32,14 +32,10 @@ jobs:
 
       - name: Run Tests
         run: python manage.py test
+  deploy_to_render:
+    needs: build_and_test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-  # deploy_to_render:
-  #   needs: build_and_test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Deploy to Render
-  #       run: |
-  #         curl -X POST "https://api.render.com/v1/deploys" \
-  #         -H "Authorization: Bearer ${{ secrets.RENDER_TOKEN }}" \
-  #         -H "Content-Type: application/json" \
-  #         --data '{"branch": "main"}'

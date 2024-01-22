@@ -1,25 +1,23 @@
 import os
 from pathlib import Path
-import dj_database_url
 from dotenv import load_dotenv
 from decouple import config, Csv
 from datetime import timedelta
 import dj_database_url
-
+import environ
 
 # Load environment variables from .env file
 load_dotenv()
 
 # Initialize environment variables
 DEBUG = os.environ.get('DEBUG', False)
-SECRET_KEY = '3$u^962jf6b$0m8v-(y0u&jvg!89t+s@74q72177!3u)_9y2o3'
-# Add other environment variables as needed
+SECRET_KEY = os.environ.get('SECRET_KEY', '3$u^962jf6b$0m8v-(y0u&jvg!89t+s@74q72177!3u)_9y2o3')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
+# Configure the database
+DATABASES = {"default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))}
 
 ALLOWED_HOSTS = ["*"]
 
@@ -31,11 +29,14 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 INSTALLED_APPS = [
+    # Django Default Apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+
+    # Third-party Apps
     "cloudinary_storage",
     "cloudinary",
     "django_filters",
@@ -80,15 +81,11 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-
-
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
     'REGISTER_SERIALIZER': 'users.serializers.FgfUserSerializer',
     'USER_DETAILS_SERIALIZER': 'dj_rest_auth.serializers.UserDetailsSerializer'
 }
-
-
 
 TEMPLATES = [
     {
@@ -99,16 +96,12 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',  # Add this line
-                'django.contrib.messages.context_processors.messages',  # Add this line
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
 ]
-
-
-
-
 
 WSGI_APPLICATION = 'fgf_application.wsgi.application'
 
@@ -127,23 +120,9 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 5,
-
-
 }
 
 REST_USE_JWT = True
-#JWT_AUTH_COOKIE = 'my-app-auth'
-
-
-# Database Settings
-DATABASES = {"default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))}
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -161,8 +140,6 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = "accounts.FgfUser"
 
-
-
 # Token expiration settings
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
@@ -170,6 +147,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
+# Email configuration
 EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
