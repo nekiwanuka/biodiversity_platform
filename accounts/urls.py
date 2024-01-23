@@ -1,12 +1,7 @@
 # urls.py
 
 from django.urls import path
-from .views import (
-                    SuperuserRegistrationView,
-                    MasteruserRegistrationView,
-                    ContributorRegistrationView,
-                    FgfUserLoginView,
-                    FgfUserLogoutView)
+from .views import SuperuserRegistrationView,MasteruserRegistrationView,ContributorRegistrationView,FgfUserLoginView,FgfUserLogoutView,PasswordChangeView,PasswordResetView
 from dj_rest_auth.registration.views import VerifyEmailView, ConfirmEmailView
 from dj_rest_auth.views import PasswordResetConfirmView
 from .views import ContributorListView, MasterUserListView
@@ -23,6 +18,8 @@ urlpatterns = [
     path('api/v1/login/', FgfUserLoginView.as_view(), name='user-login'),
     path('api/v1/listcontributors/', ContributorListView.as_view(), name='contributor-list'),
     path('api/v1/listmasterusers/', MasterUserListView.as_view(), name='masteruser-list'),
+    path('api/v1/password/change/', PasswordChangeView.as_view(), name='password_change'),
+    path('api/v1/password/reset/', PasswordResetView.as_view(), name='password_reset'),
 
     ]
 

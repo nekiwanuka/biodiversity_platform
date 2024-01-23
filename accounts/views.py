@@ -2,6 +2,7 @@ from django.db.models import Q
 from django.contrib.auth.models import Group
 from dj_rest_auth.registration.views import RegisterView
 from dj_rest_auth.views import LoginView, LogoutView
+from allauth.account.views import PasswordChangeView, PasswordResetView
 from rest_framework import generics
 from .serializers import CustomFgfUserRegistrationSerializer, FgfUserSerializer, FgfUserLoginSerializer
 from .models import FgfUser
@@ -35,10 +36,6 @@ class SuperuserRegistrationView(BaseRoleRegistrationView):
 
 
 
-
-
-
-
 class ContributorListView(generics.ListAPIView):
     serializer_class = FgfUserSerializer
 
@@ -59,3 +56,15 @@ class FgfUserLoginView(LoginView):
 
 class FgfUserLogoutView(LogoutView):
     pass
+
+
+
+
+
+class PasswordChangeView(PasswordChangeView):
+    pass
+    # Your custom logic for password change view
+
+class PasswordResetView(PasswordResetView):
+    pass
+    # Your custom logic for password reset view

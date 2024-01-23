@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # Third-party Apps
     "cloudinary_storage",
+    "schema_viewer",
     "django_filters",
     "corsheaders",
     "rest_framework",
@@ -176,4 +177,16 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 
-LOGIN_URL = 'https://fgfplatformbackend.onrender.com/api/v1/register/contributor/'
+ACCOUNT_CHANGE_PASSWORD_URL = 'password_change'
+ACCOUNT_PASSWORD_RESET_URL = 'password_reset'
+
+
+LOGIN_URL = 'https://fgfplatformbackend.onrender.com/api/v1/login/'
+
+
+SCHEMA_VIEWER = {
+    'apps': [
+        "plants","cultures","animals",
+    ],
+}
+

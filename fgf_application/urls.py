@@ -38,6 +38,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('schema_viewer/', include('schema_viewer.urls')),
 
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     #path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
@@ -49,6 +50,7 @@ urlpatterns = [
     path("", include(("plants.urls", "plants"))),
     path("", include(("animals.urls", "animals"))),
     path("", include(("accounts.urls", "accounts"))),
+
     path(
         "swagger<format>/",
         schema_view.without_ui(cache_timeout=0),
