@@ -1,3 +1,5 @@
+# urls.py
+
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include, re_path
@@ -8,7 +10,6 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework.authtoken import views
 from django.conf.urls.static import static
-
 
 admin.site.site_header = "FGF SYSTEMS"
 admin.site.site_title = "Welcome to FGF systems "
@@ -40,9 +41,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('schema_viewer/', include('schema_viewer.urls')),
 
-    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    #path('second_auth/', include('dj_rest_auth.urls')),
     #path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('allauth/', include('allauth.urls')),
+    #path('allauth/', include('allauth.urls')),
     path('allauth/account/', include('allauth.account.urls')),
     path('allauth/socialaccount/', include('allauth.socialaccount.urls')),
 
@@ -62,8 +63,10 @@ urlpatterns = [
     re_path(
         r"^media/(?P<path>.*)$",
         serve,
-        {
-            "document_root": settings.MEDIA_ROOT,
-        },
+        {"document_root": settings.MEDIA_ROOT},
     ),
 ]
+
+# Serve media files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

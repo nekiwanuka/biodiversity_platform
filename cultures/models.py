@@ -8,10 +8,10 @@ class Clan(models.Model):
     clan_seat = models.CharField(max_length=250, blank=True)
     clan_anthem = models.TextField(blank=True, null=True)
     clan_roles = models.TextField(blank=True, null=True)
-    
+
     # Image fields for relevant attributes
     totem_image = models.ImageField(upload_to="clan_images", null=True, blank=True)
-    
+
     totem = models.CharField(max_length=250, blank=True)
     secondary_totem = models.CharField(max_length=250, blank=True)
     clan_history = models.TextField(blank=True)
@@ -25,10 +25,10 @@ class Clan(models.Model):
     taboos = models.TextField(blank=True)
     lead_god = models.CharField(max_length=250, blank=True)
     other_gods = models.CharField(max_length=250, blank=True)
-    
+
     # FileField for audio
     audio = models.FileField(upload_to="ethnic_group_audio", blank=True, null=True)
-    
+
     notes = models.TextField(blank=True, null=True)
     contributor_name = models.CharField(max_length=250, blank=True, null=True)
     citation = models.TextField(blank=True, null=True)
@@ -71,7 +71,7 @@ class Ethnicity(models.Model):
     ethnicity_name = models.CharField(max_length=250, unique=True)
     region_in_Uganda = models.CharField(max_length=250, blank=True, null=True)
     language = models.CharField(max_length=250, blank=True, null=True)
-    
+
     # Image fields for relevant attributes
     common_food_types = models.TextField(blank=True, null=True)
     staple_food = models.CharField(max_length=250, blank=True, null=True)
@@ -103,7 +103,7 @@ class EthnicGroup(models.Model):
     number_of_ethnicity = models.IntegerField(default=1, blank=True, null=True)
     number_of_languages = models.IntegerField(default=1, null=True)
     number_of_kingdoms_or_chiefdoms = models.IntegerField(default=1, null=True)
-    
+
     # FileField for audio
     audio = models.FileField(upload_to="ethnic_group_audio", blank=True, null=True)
     notes = models.TextField(blank=True, null=True)

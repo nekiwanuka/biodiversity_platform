@@ -11,7 +11,7 @@ load_dotenv()
 
 # Initialize environment variables
 DEBUG = os.environ.get('DEBUG', False)
-SECRET_KEY = os.environ.get('SECRET_KEY', '3$u^962jf6b$0m8v-(y0u&jvg!89t+s@74q72177!3u)_9y2o3')
+SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 

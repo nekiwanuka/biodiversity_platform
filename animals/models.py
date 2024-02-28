@@ -18,12 +18,12 @@ class AnimalClassification(models.Model):
 
 
 class Animal(models.Model):
-    animal_id = models.CharField(max_length=250, primary_key=True)
+    animal_id = models.AutoField(primary_key=True)
     english_name = models.CharField(max_length=250)
     scientific_name = models.CharField(max_length=250)
     description = models.TextField(null=True, blank=True)
     areas_in_Uganda = models.CharField(max_length=250)
-    
+
     animal_classifications = models.ForeignKey(
         AnimalClassification, on_delete=models.SET_NULL, null=True
     )
